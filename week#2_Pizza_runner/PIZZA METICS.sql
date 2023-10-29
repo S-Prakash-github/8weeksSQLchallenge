@@ -52,7 +52,22 @@ select max(table2.pizza_count) as max_pizza_deli from table2
 join table1 on table2.order_id = table1.order_id;
 
 ##Q7. For each customer, how many delivered pizzas had at least 1 change and how many had no changes?
+	
+update customer_orders
+set exclusions = NULL
+where exclusions = "" or exclusions = "null"
+update customer_orders
+set extras = NULL
+where extras = "" or extras = "null"
+select * from customer_orders
+select * from runner_orders
 
+select a.customer_id, count(case when a.exclusions is not null or a.extras is not null then 1 end) as atleast_one,
+count(case when a.exclusions is null and a.extras is null then 1 end ) as no_change 
+from customer_orders as a join runner_orders as b
+on a.order_id = b.order_id
+where b.cancellation is null
+group by a.customer_id
 
 
 ##Q8. How many pizzas were delivered that had both exclusions and extras?
@@ -97,11 +112,5 @@ order by order_count desc;
 
 ##Q10. What was the volume of orders for each day of the week?
 
-
-
-
-## 4. What was the average distance travelled for each customer?
-
-
-select * from runners_orders2;
-select * from customer_orders2;
+select dayname(order_time) as day_name , count(order_id) as volume  from customer_orders 
+group by day_name
