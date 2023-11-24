@@ -8,8 +8,21 @@ SELECT COUNT(pizza_id) as Pizza_count FROM customer_orders;
 
 ## Q2 How many unique customer orders were made?
 ```
-select count(distinct order_id ) as unique_order  from customer_orders ;
+SELECT 
+    COUNT(DISTINCT order_id) AS unique_order
+FROM 
+    customer_orders;
+
 ```
+##### EXPLANATION
+- SELECT COUNT(DISTINCT order_id) AS unique_order: This part of the query calculates the count of distinct order_id values from the customer_orders table and aliases the result as unique_order.
+
+- FROM customer_orders: This specifies the source table, indicating that the count is to be calculated from the customer_orders table.
+
+- The entire query is commented using -- to provide context or explanations. In this case, it clarifies that the query is counting the number of unique order IDs in the customer_orders table.
+
+##### OUTPUT
+
 ## Q3 How many successful orders were delivered by each runner?
 ```
 with table1  as (
