@@ -1,12 +1,23 @@
 ## PIZZA METRICS🍕
 
 ## Q1  How many pizzas were ordered?
+
 ```
 SELECT COUNT(pizza_id) as Pizza_count FROM customer_orders;
 ```
-> Output
+##### OUTPUT
+| pizza_count |
+|-------------|
+|    14       |
 
+##### EXPLANATION
+
+- SELECT COUNT(pizza_id) AS Pizza_count: This part of the query calculates the count of non-null pizza_id values from the customer_orders table and aliases the result as Pizza_count.
+
+- FROM customer_orders: This specifies the source table, indicating that the count is to be calculated from the customer_orders table.
+- 
 ## Q2 How many unique customer orders were made?
+
 ```
 SELECT 
     COUNT(DISTINCT order_id) AS unique_order
@@ -14,14 +25,16 @@ FROM
     customer_orders;
 
 ```
+##### OUTPUT 
+| unique_order|
+|-------------|
+|    10       |
+
+
 ##### EXPLANATION
 - SELECT COUNT(DISTINCT order_id) AS unique_order: This part of the query calculates the count of distinct order_id values from the customer_orders table and aliases the result as unique_order.
 
 - FROM customer_orders: This specifies the source table, indicating that the count is to be calculated from the customer_orders table.
-
-- The entire query is commented using -- to provide context or explanations. In this case, it clarifies that the query is counting the number of unique order IDs in the customer_orders table.
-
-##### OUTPUT
 
 ## Q3 How many successful orders were delivered by each runner?
 ```
