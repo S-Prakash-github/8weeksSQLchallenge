@@ -7,18 +7,21 @@ SELECT COUNT(pizza_id) as Pizza_count FROM customer_orders;
 > Output
 
 ## Q2 How many unique customer orders were made?
+```
 select count(distinct order_id ) as unique_order  from customer_orders ;
-
+```
 ##Q3 How many successful orders were delivered by each runner?
+```
 with table1  as (
 select   case when cancellation is null or cancellation like  'null' then 0 
 		   when cancellation = '' then 0 else 1  end as cancellation , 
 runner_id from runner_orders )
 select runner_id ,count(runner_id) as order_delivered from table1 where cancellation = 0
 group by runner_id;
-
+```
 
 ##Q4 How many of each type of pizza was delivered?
+```
 with table1  as (
 select   order_id , case when cancellation is null or cancellation like  'null' then 0 
 		   when cancellation = '' then 0 else 1  end as cancellation , 
@@ -29,15 +32,16 @@ join customer_orders on table1.order_id = customer_orders.order_id
 join pizza_names on  pizza_names.pizza_id = customer_orders.pizza_id 
 where table1.cancellation = 0
 group by pizza_names.pizza_name;
-
+```
 ##Q5 How many Vegetarian and Meatlovers were ordered by each customer?
-
+```
 select  customer_orders.customer_id, pizza_names.pizza_name ,count(pizza_names.pizza_name)  from customer_orders
 join pizza_names on customer_orders.pizza_id = pizza_names.pizza_id
 group by  customer_orders.customer_id ,pizza_names.pizza_name 
 order by customer_orders.customer_id;
 
 ##Q6 What was the maximum number of pizzas delivered in a single order?
+```
 with table1  as (
 select   order_id , case when cancellation is null or cancellation like  'null' then 0 
 		   when cancellation = '' then 0 else 1  end as cancellation , 
@@ -47,9 +51,9 @@ select order_id,count(order_id) as pizza_count from customer_orders
 group by order_id)
 select max(table2.pizza_count) as max_pizza_deli from table2 
 join table1 on table2.order_id = table1.order_id;
-
+```
 ##Q7. For each customer, how many delivered pizzas had at least 1 change and how many had no changes?
-	
+```	
 update customer_orders
 set exclusions = NULL
 where exclusions = "" or exclusions = "null"
@@ -66,9 +70,9 @@ on a.order_id = b.order_id
 where b.cancellation is null
 group by a.customer_id
 
-
+```
 ##Q8. How many pizzas were delivered that had both exclusions and extras?
-
+```
 drop view  if exists runners_orders2;
 create view  runners_orders2 as 
 select order_id,runner_id,
@@ -100,8 +104,9 @@ where exclusions = 1  and extras = 1
 select count(customer_id) as exclusion_extra_p from exclusion_extras as e
 join order_delivered as o  on
 e.order_id = o.order_id;
-
+```
 ##Q9. What was the total volume of pizzas ordered for each hour of the day?
+```
 select hour(order_time) as hours , count(order_id) as order_count from customer_orders
 group by hour(order_time)
 order by order_count desc;
@@ -111,3 +116,4 @@ order by order_count desc;
 
 select dayname(order_time) as day_name , count(order_id) as volume  from customer_orders 
 group by day_name
+```
