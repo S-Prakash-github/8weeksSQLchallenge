@@ -64,7 +64,7 @@ where extras = "" or extras = "null"
 select * from customer_orders
 select * from runner_orders
 ```
-###### Query
+##### Query
 ```
 select a.customer_id, count(case when a.exclusions is not null or a.extras is not null then 1 end) as atleast_one,
 count(case when a.exclusions is null and a.extras is null then 1 end ) as no_change 
@@ -93,7 +93,7 @@ case when exclusions like '' or exclusions is null or exclusions like 'null'  th
 case when extras like 'null' or extras is null  or extras like '' then 0  else 1 end as extras 
 from customer_orders;
 ```
-###### Query
+##### Query
 ```
 with order_delivered as 
 (
