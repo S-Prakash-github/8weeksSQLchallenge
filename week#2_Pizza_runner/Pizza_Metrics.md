@@ -110,10 +110,10 @@ e.order_id = o.order_id;
 select hour(order_time) as hours , count(order_id) as order_count from customer_orders
 group by hour(order_time)
 order by order_count desc;
+```
 
-
-##Q10. What was the volume of orders for each day of the week?
-
+## Q10. What was the volume of orders for each day of the week?
+```
 select dayname(order_time) as day_name , count(order_id) as volume  from customer_orders 
 group by day_name
 ```
