@@ -53,7 +53,8 @@ select max(table2.pizza_count) as max_pizza_deli from table2
 join table1 on table2.order_id = table1.order_id;
 ```
 ## Q7. For each customer, how many delivered pizzas had at least 1 change and how many had no changes?
-```	
+##### DATA CLEANING
+```
 update customer_orders
 set exclusions = NULL
 where exclusions = "" or exclusions = "null"
@@ -62,7 +63,9 @@ set extras = NULL
 where extras = "" or extras = "null"
 select * from customer_orders
 select * from runner_orders
-
+```
+> Query
+```
 select a.customer_id, count(case when a.exclusions is not null or a.extras is not null then 1 end) as atleast_one,
 count(case when a.exclusions is null and a.extras is null then 1 end ) as no_change 
 from customer_orders as a join runner_orders as b
@@ -72,6 +75,7 @@ group by a.customer_id
 
 ```
 ## Q8. How many pizzas were delivered that had both exclusions and extras?
+##### DATA CLEANING
 ```
 drop view  if exists runners_orders2;
 create view  runners_orders2 as 
@@ -88,10 +92,9 @@ select order_id , customer_id , pizza_id,
 case when exclusions like '' or exclusions is null or exclusions like 'null'  then 0 else 1 end as exclusions,
 case when extras like 'null' or extras is null  or extras like '' then 0  else 1 end as extras 
 from customer_orders;
-
-select * from runners_orders2;
-select * from customer_orders2;
-
+```
+> Query
+```
 with order_delivered as 
 (
 select order_id , cancellation , runner_id from runners_orders2 where cancellation = 0  
