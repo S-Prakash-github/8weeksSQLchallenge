@@ -1,34 +1,10 @@
----
-jupyter:
-  kernelspec:
-    display_name: Python 3 (ipykernel)
-    language: python
-    name: python3
-  language_info:
-    codemirror_mode:
-      name: ipython
-      version: 3
-    file_extension: .py
-    mimetype: text/x-python
-    name: python
-    nbconvert_exporter: python
-    pygments_lexer: ipython3
-    version: 3.9.13
-  nbformat: 4
-  nbformat_minor: 5
----
 
-::: {#60d6e97c .cell .markdown}
-# Bonus Questions
-:::
-
-::: {#82904ead .cell .markdown}
-### Join All The Things
+## Join All The Things
 
 ##### The following questions are related creating basic data tables that Danny and his team can use to quickly deriveinsights without needing to join the underlying tables using SQL . {#the-following-questions-are-related-creating-basic-data-tables-that-danny-and-his-team-can-use-to-quickly-deriveinsights-without-needing-to-join-the-underlying-tables-using-sql-}
-:::
 
-::: {#42356808 .cell .code}
+
+
 ``` python
 create view join_all as (
 select b.customer_id , b.order_date , c.product_name , c.price , 
@@ -46,22 +22,20 @@ b.product_id = c.product_id
 ```
 :::
 
-::: {#3f9e616b .cell .markdown}
-![Screenshot%202023-11-02%20152933.png](vertopal_2bae3fcb03e744db962154b95356e748/Screenshot%202023-11-02%20152933.png)
-:::
 
-::: {#7c3ad61c .cell .markdown}
+![Screenshot%202023-11-02%20152933.png](vertopal_2bae3fcb03e744db962154b95356e748/Screenshot%202023-11-02%20152933.png)
+
 The view \"join_all\" is created using the \"CREATE VIEW\" statement.
 This view will contain the results of the following SELECT query.
 
-##### The SELECT query starts by selecting several columns from the \"sales\" table (aliased as \"b\") and the \"menu\" table (aliased as \"c\"). These columns include: {#the-select-query-starts-by-selecting-several-columns-from-the-sales-table-aliased-as-b-and-the-menu-table-aliased-as-c-these-columns-include}
+#### The SELECT query starts by selecting several columns from the \"sales\" table (aliased as \"b\") and the \"menu\" table (aliased as \"c\"). These columns include: {#the-select-query-starts-by-selecting-several-columns-from-the-sales-table-aliased-as-b-and-the-menu-table-aliased-as-c-these-columns-include}
 
 -   \"b.customer_id\" (customer ID from the \"sales\" table).
 -   \"b.order_date\" (order date from the \"sales\" table).
 -   \"c.product_name\" (product name from the \"menu\" table).
 -   \"c.price\" (price of the product from the \"menu\" table).
 
-##### A new column called \"members,\" which is determined based on certain conditions.The \"CASE\" statement is used to determine the value of the \"members\" column. It checks several conditions for each row and assigns a value accordingly: {#a-new-column-called-members-which-is-determined-based-on-certain-conditionsthe-case-statement-is-used-to-determine-the-value-of-the-members-column-it-checks-several-conditions-for-each-row-and-assigns-a-value-accordingly}
+#### A new column called \"members,\" which is determined based on certain conditions.The \"CASE\" statement is used to determine the value of the \"members\" column. It checks several conditions for each row and assigns a value accordingly: {#a-new-column-called-members-which-is-determined-based-on-certain-conditionsthe-case-statement-is-used-to-determine-the-value-of-the-members-column-it-checks-several-conditions-for-each-row-and-assigns-a-value-accordingly}
 
 -   If the \"customer_id\" is \"A\" , and the \"order_date\" is greater
     than or equal to the \"join_date\" associated with the customer, it
@@ -80,13 +54,11 @@ This view will contain the results of the following SELECT query.
     based on the \"product_id\" column.
 :::
 
-::: {#12d9c2f1 .cell .markdown}
 ### Rank All The Things
 
 ##### Danny also requires further information about the ranking of customer products, but he purposely does not need the ranking for non-member purchases so he expects null ranking values for the records when customers are not yet part of the loyalty program. {#danny-also-requires-further-information-about-the-ranking-of-customer-products-but-he-purposely-does-not-need-the-ranking-for-non-member-purchases-so-he-expects-null-ranking-values-for-the-records-when-customers-are-not-yet-part-of-the-loyalty-program}
-:::
 
-::: {#51e408d6 .cell .code}
+
 ``` python
 
 create view ranking_all as(
@@ -108,13 +80,10 @@ select customer_id, order_date,product_name,price ,members,
 from cte
 )
 ```
-:::
 
-::: {#483ceae1 .cell .markdown}
+
 ![Screenshot%202023-11-02%20153437.png](vertopal_2bae3fcb03e744db962154b95356e748/Screenshot%202023-11-02%20153437.png)
-:::
 
-::: {#1325f34f .cell .markdown}
 -   In the outer SELECT statement, the query retrieves customer_id,
     order_date, product_name, price, and the \"members\" column from the
     CTE \"cte.\" It also calculates the \"rankings\" column.
@@ -124,16 +93,10 @@ from cte
     and orders the rows by \"order_date.\" If the \"members\" column is
     not equal to \"N,\" then the ranking is calculated; otherwise, it\'s
     set to 0.
-:::
 
-::: {#eec1ab94 .cell .markdown}
-:::
 
-::: {#107c4152 .cell .markdown}
 # INSIGHTS
-:::
 
-::: {#96ebd067 .cell .markdown}
 From the analysis, we discover a few interesting insights that would be
 certainly useful for Danny.
 
@@ -155,20 +118,9 @@ certainly useful for Danny.
 -   Assuming that members can earn 2x a week from the day they became a
     member with bonus 2x points for sushi, Customer A has 660 points and
     Customer B has 340 by the end of Jan 2021.
-:::
 
-::: {#b0e9cf2f .cell .code execution_count="1"}
-``` python
-pip install pandoc
-```
 
-::: {.output .stream .stdout}
-    Requirement already satisfied: pandoc in c:\users\praka\anaconda3\lib\site-packages (2.3)Note: you may need to restart the kernel to use updated packages.
 
-    Requirement already satisfied: ply in c:\users\praka\anaconda3\lib\site-packages (from pandoc) (3.11)
-    Requirement already satisfied: plumbum in c:\users\praka\anaconda3\lib\site-packages (from pandoc) (1.8.1)
-    Requirement already satisfied: pywin32 in c:\users\praka\anaconda3\lib\site-packages (from plumbum->pandoc) (302)
-:::
 :::
 
 ::: {#fd147570 .cell .code}
