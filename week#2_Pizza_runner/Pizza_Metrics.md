@@ -48,35 +48,79 @@ group by runner_id;
 
 ## Q4 How many of each type of pizza was delivered?
 ```
-with table1  as (
-select   order_id , case when cancellation is null or cancellation like  'null' then 0 
-		   when cancellation = '' then 0 else 1  end as cancellation , 
-runner_id from runner_orders )
+WITH table1 AS (
+    SELECT
+        order_id,
+        CASE
+            WHEN cancellation IS NULL OR cancellation LIKE 'null' THEN 0
+            WHEN cancellation = '' THEN 0
+            ELSE 1
+        END AS cancellation,
+        runner_id
+    FROM
+        runner_orders
+)
 
-select count(table1.cancellation) as order_count , pizza_names.pizza_name from table1 
-join customer_orders on table1.order_id = customer_orders.order_id
-join pizza_names on  pizza_names.pizza_id = customer_orders.pizza_id 
-where table1.cancellation = 0
-group by pizza_names.pizza_name;
+SELECT
+    COUNT(table1.cancellation) AS order_count,
+    pizza_names.pizza_name
+FROM
+    table1
+JOIN
+    customer_orders ON table1.order_id = customer_orders.order_id
+JOIN
+    pizza_names ON pizza_names.pizza_id = customer_orders.pizza_id
+WHERE
+    table1.cancellation = 0
+GROUP BY
+    pizza_names.pizza_name;
 ```
 ## Q5 How many Vegetarian and Meatlovers were ordered by each customer?
 ```
-select  customer_orders.customer_id, pizza_names.pizza_name ,count(pizza_names.pizza_name)  from customer_orders
-join pizza_names on customer_orders.pizza_id = pizza_names.pizza_id
-group by  customer_orders.customer_id ,pizza_names.pizza_name 
-order by customer_orders.customer_id;
+SELECT
+    customer_orders.customer_id,
+    pizza_names.pizza_name,
+    COUNT(pizza_names.pizza_name) AS pizza_count
+FROM
+    customer_orders
+JOIN
+    pizza_names ON customer_orders.pizza_id = pizza_names.pizza_id
+GROUP BY
+    customer_orders.customer_id,
+    pizza_names.pizza_name
+ORDER BY
+    customer_orders.customer_id;
 ```
 ## Q6 What was the maximum number of pizzas delivered in a single order?
 ```
-with table1  as (
-select   order_id , case when cancellation is null or cancellation like  'null' then 0 
-		   when cancellation = '' then 0 else 1  end as cancellation , 
-runner_id from runner_orders ),
-table2 as (
-select order_id,count(order_id) as pizza_count from customer_orders
-group by order_id)
-select max(table2.pizza_count) as max_pizza_deli from table2 
-join table1 on table2.order_id = table1.order_id;
+WITH table1 AS (
+    SELECT
+        order_id,
+        CASE
+            WHEN cancellation IS NULL OR cancellation LIKE 'null' THEN 0
+            WHEN cancellation = '' THEN 0
+            ELSE 1
+        END AS cancellation,
+        runner_id
+    FROM
+        runner_orders
+),
+table2 AS (
+    SELECT
+        order_id,
+        COUNT(order_id) AS pizza_count
+    FROM
+        customer_orders
+    GROUP BY
+        order_id
+)
+
+SELECT
+    MAX(table2.pizza_count) AS max_pizza_deli
+FROM
+    table2
+JOIN
+    table1 ON table2.order_id = table1.order_id;
 ```
 ## Q7. For each customer, how many delivered pizzas had at least 1 change and how many had no changes?
 ##### DATA CLEANING
@@ -92,12 +136,18 @@ select * from runner_orders
 ```
 ##### Query
 ```
-select a.customer_id, count(case when a.exclusions is not null or a.extras is not null then 1 end) as atleast_one,
-count(case when a.exclusions is null and a.extras is null then 1 end ) as no_change 
-from customer_orders as a join runner_orders as b
-on a.order_id = b.order_id
-where b.cancellation is null
-group by a.customer_id
+SELECT
+    a.customer_id,
+    COUNT(CASE WHEN a.exclusions IS NOT NULL OR a.extras IS NOT NULL THEN 1 END) AS atleast_one,
+    COUNT(CASE WHEN a.exclusions IS NULL AND a.extras IS NULL THEN 1 END) AS no_change
+FROM
+    customer_orders AS a
+JOIN
+    runner_orders AS b ON a.order_id = b.order_id
+WHERE
+    b.cancellation IS NULL
+GROUP BY
+    a.customer_id;
 
 ```
 ## Q8. How many pizzas were delivered that had both exclusions and extras?
