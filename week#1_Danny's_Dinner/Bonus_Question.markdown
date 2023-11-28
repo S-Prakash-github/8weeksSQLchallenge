@@ -20,7 +20,7 @@ on
 b.product_id = c.product_id
 )
 ```
-:::
+
 
 
 ![Screenshot%202023-11-02%20152933.png](vertopal_2bae3fcb03e744db962154b95356e748/Screenshot%202023-11-02%20152933.png)
@@ -121,9 +121,6 @@ certainly useful for Danny.
 
 
 
-:::
 
-::: {#fd147570 .cell .code}
 ``` python
-```
-:::
+
