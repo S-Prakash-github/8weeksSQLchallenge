@@ -1,33 +1,10 @@
----
-jupyter:
-  kernelspec:
-    display_name: Python 3 (ipykernel)
-    language: python
-    name: python3
-  language_info:
-    codemirror_mode:
-      name: ipython
-      version: 3
-    file_extension: .py
-    mimetype: text/x-python
-    name: python
-    nbconvert_exporter: python
-    pygments_lexer: ipython3
-    version: 3.9.13
-  nbformat: 4
-  nbformat_minor: 5
----
 
-::: {#31aa6458 .cell .markdown}
-## Danny\'s Dinner Case Study :-
-:::
+# Danny\'s Dinner Case Study :-
 
-::: {#d274982a .cell .markdown}
-![Screenshot%202023-04-09%20123858.png](vertopal_5ff1531013f14efd9c554cf4da89c950/Screenshot%202023-04-09%20123858.png)
-:::
+![Screenshot%202023-04-09%20123858.png](vertopal_2bae3fcb03e744db962154b95356e748/Screenshot%202023-04-09%20123858.png)
 
-::: {#94732076 .cell .markdown}
-#### Introduction
+
+## Introduction
 
 Danny seriously loves Japanese food so in the beginning of 2021, he
 decides to embark upon a risky venture and opens up a cute little
@@ -38,7 +15,7 @@ afloat - the restaurant has captured some very basic data from their few
 months of operation but have no idea how to use their data to help them
 run the business.
 
-#### Problem Statement
+## Problem Statement
 
 Danny wants to use the data to answer a few simple questions about his
 customers, especially about their visiting patterns, how much money
@@ -61,72 +38,48 @@ Danny has shared with you 3 key datasets for this case study:
 -   menu
 -   members You can inspect the entity relationship diagram and example
     data below.
-:::
 
-::: {#5f98973f .cell .markdown}
-![Screenshot%202023-10-30%20004147.png](vertopal_5ff1531013f14efd9c554cf4da89c950/Screenshot%202023-10-30%20004147.png)
-:::
+![Screenshot%202023-10-30%20004147.png](vertopal_2bae3fcb03e744db962154b95356e748/Screenshot%202023-10-30%20004147.png)
 
-::: {#1930e499 .cell .code}
 ``` python
 ```
-:::
 
-::: {#a7953538 .cell .markdown}
 #### 1: Total amount spent by each customer {#1-total-amount-spent-by-each-customer}
-:::
 
-::: {#9b6a89f1 .cell .code}
 ``` python
 SELECT S.customer_id, SUM(M.price)
 FROM Menu M
 JOIN Sales S ON M.product_id = S.product_id
 GROUP BY S.customer_id;
 ```
-:::
 
-::: {#886e2a76 .cell .markdown}
-![Screenshot%202023-10-30%20013515.png](vertopal_5ff1531013f14efd9c554cf4da89c950/Screenshot%202023-10-30%20013515.png)
-:::
+![Screenshot%202023-10-30%20013515.png](vertopal_2bae3fcb03e744db962154b95356e748/Screenshot%202023-10-30%20013515.png)
 
-::: {#c49f2777 .cell .markdown}
 -   This query calculates the total amount spent by each customer.
 -   It joins the \"Menu\" and \"Sales\" tables on the \"product_id\"
     column.
 -   Then, it groups the results by \"customer_id\" and uses the SUM
     function to calculate the total price spent by customer.
-:::
 
-::: {#dd6ec7ac .cell .markdown}
 #### 2: How many days each customer visited the restaurant {#2-how-many-days-each-customer-visited-the-restaurant}
-:::
 
-::: {#4af88362 .cell .code}
 ``` python
 SELECT customer_id, COUNT(DISTINCT order_date)
 FROM Sales
 GROUP BY customer_id;
 ```
-:::
 
-::: {#c421af76 .cell .markdown}
-![Screenshot%202023-10-30%20013640.png](vertopal_5ff1531013f14efd9c554cf4da89c950/Screenshot%202023-10-30%20013640.png)
-:::
+![Screenshot%202023-10-30%20013640.png](vertopal_2bae3fcb03e744db962154b95356e748/Screenshot%202023-10-30%20013640.png)
 
-::: {#c18d59a7 .cell .markdown}
 -   This query counts the number of distinct days that each customer
     visited the restaurant.
 -   It works with the \"Sales\" table and groups the results by
     \"customer_id.\"
 -   The COUNT function is used with DISTINCT to count the unique order
     dates for each customer.
-:::
 
-::: {#bbb2727b .cell .markdown}
 #### 3: What was the first item from the menu purchased by each customer? {#3-what-was-the-first-item-from-the-menu-purchased-by-each-customer}
-:::
 
-::: {#2e2baa32 .cell .code}
 ``` python
 WITH ranked_dates AS (
     SELECT S.customer_id, M.product_name, S.order_date,
@@ -138,25 +91,17 @@ SELECT customer_id, product_name
 FROM ranked_dates
 WHERE ranking = 1;
 ```
-:::
 
-::: {#88465951 .cell .markdown}
-![Screenshot%202023-10-30%20013835.png](vertopal_5ff1531013f14efd9c554cf4da89c950/Screenshot%202023-10-30%20013835.png)
-:::
+![Screenshot%202023-10-30%20013835.png](vertopal_2bae3fcb03e744db962154b95356e748/Screenshot%202023-10-30%20013835.png)
 
-::: {#220ccf99 .cell .markdown}
 -   This query finds the first item purchased by each customer.
 -   It creates a Common Table Expression (CTE) named \"ranked_dates\"
     that ranks purchases based on order date for each customer.
 -   The final SELECT statement retrieves customer_id and product_name
     for the rows where the ranking is 1, indicating the first purchase.
-:::
 
-::: {#4bab5505 .cell .markdown}
 #### 4: What is the most purchased item on the menu and how many times was it purchased by all customers? {#4-what-is-the-most-purchased-item-on-the-menu-and-how-many-times-was-it-purchased-by-all-customers}
-:::
 
-::: {#5ebb3169 .cell .code}
 ``` python
 SELECT M.product_name, COUNT(S.product_id) AS purchase_count
 FROM Sales S
@@ -165,13 +110,9 @@ GROUP BY M.product_name
 ORDER BY purchase_count DESC
 LIMIT 1;
 ```
-:::
 
-::: {#15a4e277 .cell .markdown}
-![Screenshot%202023-11-01%20122701.png](vertopal_5ff1531013f14efd9c554cf4da89c950/Screenshot%202023-11-01%20122701.png)
-:::
+![Screenshot%202023-11-01%20122701.png](vertopal_2bae3fcb03e744db962154b95356e748/Screenshot%202023-11-01%20122701.png)
 
-::: {#37034620 .cell .markdown}
 -   This query identifies the most purchased item on the menu and how
     many times it was purchased.
 -   It joins the \"Sales\" and \"Menu\" tables on the \"product_id\" and
@@ -180,13 +121,9 @@ LIMIT 1;
     orders the items by purchase count in descending order.
 -   Finally, it limits the result to the top row, which corresponds to
     the most purchased item.
-:::
 
-::: {#55fd239e .cell .markdown}
 #### 5: Which item was the most popular for each customer? {#5-which-item-was-the-most-popular-for-each-customer}
-:::
 
-::: {#a198fd4e .cell .code}
 ``` python
 WITH count_items AS (
     SELECT S.customer_id, M.product_name,
@@ -200,13 +137,9 @@ SELECT customer_id, product_name, item_purchased
 FROM count_items
 WHERE ranks = 1;
 ```
-:::
 
-::: {#7ed05041 .cell .markdown}
-![Screenshot%202023-11-01%20122804.png](vertopal_5ff1531013f14efd9c554cf4da89c950/Screenshot%202023-11-01%20122804.png)
-:::
+![Screenshot%202023-11-01%20122804.png](vertopal_2bae3fcb03e744db962154b95356e748/Screenshot%202023-11-01%20122804.png)
 
-::: {#69ac9506 .cell .markdown}
 -   This query finds the most popular item for each customer, based on
     the number of purchases.
 -   It creates a CTE \"count_items\" that counts the purchases for each
@@ -214,13 +147,9 @@ WHERE ranks = 1;
 -   The final SELECT statement retrieves customer_id, product_name, and
     item_purchased for the rows where the rank is 1, indicating the most
     popular item.
-:::
 
-::: {#4e4edb76 .cell .markdown}
 #### 6: Which item was purchased first by the customer after they became a member? {#6-which-item-was-purchased-first-by-the-customer-after-they-became-a-member}
-:::
 
-::: {#e64a7469 .cell .code}
 ``` python
 WITH first_product AS (
     SELECT S.customer_id, M.product_name, members.join_date, S.order_date,
@@ -234,24 +163,16 @@ SELECT customer_id, product_name
 FROM first_product
 WHERE ranking = 1;
 ```
-:::
 
-::: {#2f89bb28 .cell .markdown}
-![Screenshot%202023-11-01%20122835.png](vertopal_5ff1531013f14efd9c554cf4da89c950/Screenshot%202023-11-01%20122835.png)
-:::
+![Screenshot%202023-11-01%20122835.png](vertopal_2bae3fcb03e744db962154b95356e748/Screenshot%202023-11-01%20122835.png)
 
-::: {#bccf460f .cell .markdown}
 -   This query identifies the first item purchased by each customer
     after they became a member.
 -   It uses a CTE \"first_product\" to rank purchases by order date for
     each customer and filter for purchases made after joining.
-:::
 
-::: {#6ed4acd7 .cell .markdown}
 #### 7: Which item was purchased just before the customer became a member? {#7-which-item-was-purchased-just-before-the-customer-became-a-member}
-:::
 
-::: {#1c4cedd0 .cell .code}
 ``` python
 WITH first_product AS (
     SELECT S.customer_id, M.product_name, members.join_date, S.order_date,
@@ -265,24 +186,16 @@ SELECT customer_id, product_name
 FROM first_product
 WHERE ranking = 1;
 ```
-:::
 
-::: {#598ae2b1 .cell .markdown}
 ![Screenshot%202023-11-01%20122943.png](vertopal_5ff1531013f14efd9c554cf4da89c950/Screenshot%202023-11-01%20122943.png)
-:::
 
-::: {#a7eb1d83 .cell .markdown}
 -   This query identifies the last item purchased by each customer just
     before they became a member.
 -   It uses a CTE \"first_product\" to rank purchases by order date for
     each customer and filter for purchases made just before joining.
-:::
 
-::: {#48fc04a8 .cell .markdown}
 #### 8: What is the total items and amount spent for each member before they became a member? {#8-what-is-the-total-items-and-amount-spent-for-each-member-before-they-became-a-member}
-:::
 
-::: {#4cd18994 .cell .code}
 ``` python
 WITH items AS (
     SELECT S.customer_id, S.product_id, M.product_name, members.join_date, S.order_date, M.price
@@ -296,26 +209,18 @@ WHERE order_date < join_date
 GROUP BY customer_id
 ORDER BY total_spent DESC;
 ```
-:::
 
-::: {#e11b4c43 .cell .markdown}
-![Screenshot%202023-11-01%20123042.png](vertopal_5ff1531013f14efd9c554cf4da89c950/Screenshot%202023-11-01%20123042.png)
-:::
+![Screenshot%202023-11-01%20123042.png](vertopal_2bae3fcb03e744db962154b95356e748/Screenshot%202023-11-01%20123042.png)
 
-::: {#2640db1b .cell .markdown}
 -   This query calculates the total number of items and the total amount
     spent by each member before they became a member.
 -   It uses a CTE \"items\" to join the \"Sales,\" \"Menu,\" and
     \"Members\" tables, then filters for purchases made before joining.
 -   Finally, it groups the results by customer_id and orders them by
     total_spent in descending order.
-:::
 
-::: {#5cebd778 .cell .markdown}
 #### 9: If each \$1 spent equates to 10 points and sushi has a 2x points multiplier, how many points would each customer have? {#9-if-each-1-spent-equates-to-10-points-and-sushi-has-a-2x-points-multiplier-how-many-points-would-each-customer-have}
-:::
 
-::: {#7cba0e21 .cell .code}
 ``` python
 
 WITH product_points AS (
@@ -331,26 +236,18 @@ SELECT customer_id, SUM(points)
 FROM product_points
 GROUP BY customer_id;
 ```
-:::
 
-::: {#e85c1dc0 .cell .markdown}
-![Screenshot%202023-11-01%20123132.png](vertopal_5ff1531013f14efd9c554cf4da89c950/Screenshot%202023-11-01%20123132.png)
-:::
+![Screenshot%202023-11-01%20123132.png](vertopal_2bae3fcb03e744db962154b95356e748/Screenshot%202023-11-01%20123132.png)
 
-::: {#8d4881a0 .cell .markdown}
 -   This query calculates the points earned by each customer based on
     their purchases.
 -   It assigns 10 points for every 1 dollar spent, but for \'sushi,\' it
     assigns 20 points per 1 dollar spent due to the 2x points
     multiplier.
 -   The query then calculates the total points for each customer.
-:::
 
-::: {#41925c8a .cell .markdown}
 #### 10: In the first week after a customer joins the program, they earn 2x points on all items, not just sushi. How many points do customer A and B have at the end of January? {#10-in-the-first-week-after-a-customer-joins-the-program-they-earn-2x-points-on-all-items-not-just-sushi-how-many-points-do-customer-a-and-b-have-at-the-end-of-january}
-:::
 
-::: {#67f76521 .cell .code}
 ``` python
 SELECT
     sales.customer_id,
@@ -366,13 +263,9 @@ FROM sales
 LEFT JOIN menu ON sales.product_id = menu.product_id
 LEFT JOIN members ON sales.customer_id = members.customer_id;
 ```
-:::
 
-::: {#638baf45 .cell .markdown}
-![Screenshot%202023-11-01%20123238.png](vertopal_5ff1531013f14efd9c554cf4da89c950/Screenshot%202023-11-01%20123238.png)
-:::
+![Screenshot%202023-11-01%20123238.png](vertopal_2bae3fcb03e744db962154b95356e748/Screenshot%202023-11-01%20123238.png)
 
-::: {#1fdbc6d4 .cell .markdown}
 -   This query retrieves information about customer purchases and their
     membership status.
 -   It selects columns like customer_id, order_date, product_name,
@@ -381,9 +274,4 @@ LEFT JOIN members ON sales.customer_id = members.customer_id;
     (not a member), otherwise, it\'s \'Y\' (a member).
 -   The query performs LEFT JOINs on the \"sales,\" \"menu,\" and
     \"members\" tables to gather this information.
-:::
 
-::: {#4d5037f9 .cell .code}
-``` python
-```
-:::
