@@ -60,6 +60,7 @@ GROUP BY
     runner_id;
 
 ```
+##### OUTPUT
 | Runner_ID | Order_Delivered |
 |-----------|-----------------|
 |     1     |        4        |
@@ -95,6 +96,7 @@ WHERE
 GROUP BY
     pizza_names.pizza_name;
 ```
+##### OUTPUT
 | Order_Count | Pizza_Name  |
 |-------------|-------------|
 |      9      | Meatlovers  |
@@ -116,6 +118,7 @@ GROUP BY
 ORDER BY
     customer_orders.customer_id;
 ```
+##### OUTPUT
 | Customer_ID | Pizza_Name  | Pizza_Count |
 |-------------|-------------|-------------|
 |     101     | Meatlovers  |      2      |
@@ -158,6 +161,7 @@ FROM
 JOIN
     table1 ON table2.order_id = table1.order_id;
 ```
+##### OUTPUT
 | max_pizza_deli |
 |-----------------------|
 |           3           |
