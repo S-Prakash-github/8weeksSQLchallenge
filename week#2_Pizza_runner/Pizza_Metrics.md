@@ -38,13 +38,33 @@ FROM
 
 ## Q3 How many successful orders were delivered by each runner?
 ```
-with table1  as (
-select   case when cancellation is null or cancellation like  'null' then 0 
-		   when cancellation = '' then 0 else 1  end as cancellation , 
-runner_id from runner_orders )
-select runner_id ,count(runner_id) as order_delivered from table1 where cancellation = 0
-group by runner_id;
+WITH table1 AS (
+    SELECT
+        CASE
+            WHEN cancellation IS NULL OR cancellation LIKE 'null' THEN 0
+            WHEN cancellation = '' THEN 0
+            ELSE 1
+        END AS cancellation,
+        runner_id
+    FROM
+        runner_orders
+)
+SELECT
+    runner_id,
+    COUNT(runner_id) AS order_delivered
+FROM
+    table1
+WHERE
+    cancellation = 0
+GROUP BY
+    runner_id;
+
 ```
+| Runner_ID | Order_Delivered |
+|-----------|-----------------|
+|     1     |        4        |
+|     2     |        3        |
+|     3     |        1        |
 
 ## Q4 How many of each type of pizza was delivered?
 ```
@@ -75,6 +95,11 @@ WHERE
 GROUP BY
     pizza_names.pizza_name;
 ```
+| Order_Count | Pizza_Name  |
+|-------------|-------------|
+|      9      | Meatlovers  |
+|      3      | Vegetarian  |
+
 ## Q5 How many Vegetarian and Meatlovers were ordered by each customer?
 ```
 SELECT
@@ -91,6 +116,17 @@ GROUP BY
 ORDER BY
     customer_orders.customer_id;
 ```
+| Customer_ID | Pizza_Name  | Pizza_Count |
+|-------------|-------------|-------------|
+|     101     | Meatlovers  |      2      |
+|     101     | Vegetarian  |      1      |
+|     102     | Meatlovers  |      2      |
+|     102     | Vegetarian  |      1      |
+|     103     | Meatlovers  |      3      |
+|     103     | Vegetarian  |      1      |
+|     104     | Meatlovers  |      3      |
+|     105     | Vegetarian  |      1      |
+
 ## Q6 What was the maximum number of pizzas delivered in a single order?
 ```
 WITH table1 AS (
@@ -122,6 +158,10 @@ FROM
 JOIN
     table1 ON table2.order_id = table1.order_id;
 ```
+| max_pizza_deli |
+|-----------------------|
+|           3           |
+
 ## Q7. For each customer, how many delivered pizzas had at least 1 change and how many had no changes?
 ##### DATA CLEANING
 ```
